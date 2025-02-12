@@ -7,44 +7,61 @@ import '../components/custom_button.dart';
 import 'background_decoreation.dart';
 
 class HomePage extends StatefulWidget {
+  HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  Animation? colorAnimation;
   AnimationController? controller;
+  Animation? colorTween;
+  Animation<Offset>? imageAnimation;
+  Animation<double>? fadeAnimation;
+
   @override
   void initState() {
-    controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    super.initState();
 
-    colorAnimation =
-        ColorTween(begin: Colors.blue.shade900
-            , end: Colors.white).animate(controller!);
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+
+    colorTween = ColorTween(
+      begin: Colors.blue,
+      end: ThemeData().scaffoldBackgroundColor,
+    ).animate(controller!);
+
+    imageAnimation = Tween<Offset>(
+      begin: Offset(-1.5, -1.5),
+      end: Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(parent: controller!, curve: Curves.easeOut));
+
+    fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: controller!, curve: Curves.easeIn));
 
     controller!.forward();
-
-    controller?.addListener(() {
-      setState(() {
-        print(colorAnimation?.value);
-      });
-    },);
-
-    super.initState();
+    controller!.addListener(
+      () {
+        setState(() {});
+      },
+    );
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorAnimation!.value,
+      backgroundColor: colorTween!.value,
       body: Stack(
         children: [
           BackGroundDecoration(),
@@ -53,14 +70,21 @@ class _HomePageState extends State<HomePage>
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 50.0),
               children: [
-                Hero(
-                  tag: 'appIcon',
-                  child: Image.asset(
-                    'assets/images/app_icon.png',
-                    height: 200.0,
-                    width: 200.0,
+                FadeTransition(
+                  opacity: fadeAnimation!,
+                  child: SlideTransition(
+                    position: imageAnimation!,
+                    child: Hero(
+                      tag: 'appIcon',
+                      child: Image.asset(
+                        'assets/images/app_icon.png',
+                        height: 200.0,
+                        width: 200.0,
+                      ),
+                    ),
                   ),
                 ),
+                SizedBox(height: 20.0),
                 Center(
                   child: DefaultTextStyle(
                     style: const TextStyle(
@@ -76,21 +100,18 @@ class _HomePageState extends State<HomePage>
                         ),
                       ],
                       isRepeatingAnimation: false,
-                      onTap: () {
-                        print("Tap Event");
-                      },
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 18.0,
-                ),
+                SizedBox(height: 18.0),
                 Hero(
                   tag: 'signupButton',
                   child: CustomButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LogInPage()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LogInPage()),
+                      );
                     },
                     title: "Log In",
                     color: kLightGradiant,
@@ -99,53 +120,19 @@ class _HomePageState extends State<HomePage>
                 SizedBox(height: 18.0),
                 CustomButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUpPage()),
+                    );
                   },
                   title: "Sign Up",
                   color: kDarkGradiant,
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
-
-// ElevatedButton(onPressed: (){}, child: Text("Log In",style: TextStyle(
-// color: Colors.white,
-// fontSize: 26.0,
-// ),),
-// style: ButtonStyle(
-// backgroundColor: MaterialStateProperty.all(Colors.red),
-// ),
-// ),
-
-// GestureDetector(
-// onTap: (){
-// print("HHHHHHHHHHH");
-// },
-// child: Container(
-// width: 250.0,
-// height: 65.0,
-// alignment: Alignment.center,
-// child: Text("Log In",style: TextStyle(
-// color: Colors.white,
-// fontSize: 26.0,
-// ),),
-// decoration: BoxDecoration(
-// gradient: kLightGradiant,
-// borderRadius: BorderRadius.circular(100.0),
-// boxShadow: [
-// BoxShadow(
-// color: Colors.black54,
-// offset: Offset(5, 5),
-// blurRadius: 4.0
-// )
-// ]
-// ),
-// ),
-// ),
-// SizedBox(height: 18.0,),
