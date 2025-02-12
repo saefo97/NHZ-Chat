@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neon_widgets/neon_widgets.dart';
 import 'package:nhzchat/constant.dart';
+import 'package:nhzchat/screens/chat_page.dart';
 import 'package:nhzchat/screens/forget_password.dart';
 import '../components/cusom_text_field.dart';
 import '../components/custom_button.dart';
@@ -73,10 +74,8 @@ class LogInPage extends StatelessWidget {
                   tag: 'logInButton',
                   child: CustomButton(
                     onPressed: () {
-                      
-                      // TODO: Chat Screen
-                      
-                      Navigator.of(context).pop();
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
+
                     },
                     title: "Log In",
                     color: kLightGradiant,

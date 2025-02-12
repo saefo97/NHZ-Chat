@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "850978787500",
+    "project_id": "nhzchat-acb3b",
+    "storage_bucket": "nhzchat-acb3b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850978787500:android:c2c03dfbf53d701a5c8f09",
+        "android_client_info": {
+          "package_name": "com.example.nhzchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiXH3n40jOSHxTJ0IQPtIJvjZy0Z_TUSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

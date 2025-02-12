@@ -6,13 +6,45 @@ import 'package:nhzchat/screens/signup_page.dart';
 import '../components/custom_button.dart';
 import 'background_decoreation.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  Animation? colorAnimation;
+  AnimationController? controller;
+  @override
+  void initState() {
+    controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+
+    colorAnimation =
+        ColorTween(begin: Colors.blue.shade900
+            , end: Colors.white).animate(controller!);
+
+    controller!.forward();
+
+    controller?.addListener(() {
+      setState(() {
+        print(colorAnimation?.value);
+      });
+    },);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorAnimation!.value,
       body: Stack(
         children: [
           BackGroundDecoration(),
@@ -32,11 +64,10 @@ class HomePage extends StatelessWidget {
                 Center(
                   child: DefaultTextStyle(
                     style: const TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.black,
-                      fontFamily: 'Pacifico',
-                      letterSpacing: 2.0
-                    ),
+                        fontSize: 20.0,
+                        color: Colors.black,
+                        fontFamily: 'Pacifico',
+                        letterSpacing: 2.0),
                     child: AnimatedTextKit(
                       animatedTexts: [
                         WavyAnimatedText(
@@ -68,7 +99,8 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: 18.0),
                 CustomButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()));
                   },
                   title: "Sign Up",
                   color: kDarkGradiant,
