@@ -38,7 +38,6 @@ dependencies:
   animated_text_kit: ^4.2.3
   neon_widgets: ^2.0.0
   firebase_core: ^3.11.0
-  firebase_auth: ^5.4.2
 
 dev_dependencies:
   flutter_test:
