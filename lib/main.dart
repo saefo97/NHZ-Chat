@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:nhzchat/components/loading_screen.dart';
 import 'package:nhzchat/screens/chat_page.dart';
 import 'screens/home_page.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
               return ChatScreen();
             }
           }
-          return Center(child: CircularProgressIndicator());
+          return const LoadingScreen();
         },
       ),
       theme: ThemeData(
