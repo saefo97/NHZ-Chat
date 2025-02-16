@@ -4,10 +4,12 @@ import 'package:neon_widgets/neon_widgets.dart';
 class CustomTextFormFeild extends StatefulWidget {
   final String title;
   bool isPassword;
+  String? Function(String?)? validator;
   CustomTextFormFeild(
       {super.key,
       required this.controller,
       required this.title,
+        this.validator,
         this.isPassword = false});
 
   final TextEditingController controller;
@@ -22,6 +24,7 @@ class _CustomTextFormFeildState extends State<CustomTextFormFeild> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: widget.validator,
       controller: widget.controller,
       obscureText: !isVisible,
       decoration: InputDecoration(
@@ -32,6 +35,7 @@ class _CustomTextFormFeildState extends State<CustomTextFormFeild> {
             borderSide: BorderSide(
               color: Colors.blue.shade600,
             )),
+
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(

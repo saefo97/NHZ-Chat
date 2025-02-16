@@ -7,7 +7,6 @@ import '../components/custom_button.dart';
 import 'background_decoreation.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
