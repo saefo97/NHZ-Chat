@@ -8,7 +8,7 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       return null;
     } catch (e) {
-      handleAuthError(e);
+      return handleAuthError(e);
     }
   }
 
