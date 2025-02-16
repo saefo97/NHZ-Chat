@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
         },
       ),
       theme: ThemeData(
-        primaryColorLight: Colors.blue  ,
           appBarTheme: AppBarTheme(
           backgroundColor: Colors.blue.shade900,
           titleTextStyle: const TextStyle(
