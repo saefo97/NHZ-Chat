@@ -33,10 +33,11 @@ class _ChatScreenState extends State<ChatScreen> {
             ListTile(
               leading: Icon(Icons.sunny),
               trailing: Switch(
+                activeColor: Colors.blue.shade900,
                 thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
                       (Set<WidgetState> states) {
                     if (isSwitched) {
-                      return Icon(Icons.nightlight_round, color: Colors.blue.shade900); // أيقونة عند التشغيل
+                      return Icon(Icons.nightlight_round, color: Colors.orange.shade700); // أيقونة عند التشغيل
                     } else {
                       return Icon(Icons.sunny, color: Colors.orange.shade700); // أيقونة عند الإيقاف
                     }
