@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nhzchat/components/loading_screen.dart';
 import 'package:nhzchat/constant.dart';
 import 'package:nhzchat/screens/chat_page.dart';
 import '../auth_service.dart';
@@ -7,17 +8,33 @@ import '../components/custom_button.dart';
 import '../components/custom_neon_text.dart';
 import 'background_decoreation.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController confirmPasswordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   final AuthService _authService = AuthService();
+
+  bool isLoading=false;
 
   void _signUp(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
       if (passwordController.text != confirmPasswordController.text) {
         _showErrorMessage("Passwords do not match",context);
         return;
@@ -27,15 +44,22 @@ class SignUpPage extends StatelessWidget {
         passwordController.text.trim(),
       );
       if (errorMessage == null) {
+        setState(() {
+          isLoading = false;
+        });
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => ChatScreen()),(route) => false,
         );
       } else {
+        setState(() {
+          isLoading = false;
+        });
         _showErrorMessage(errorMessage,context);
       }
     }
   }
+
   void _showErrorMessage(String message,BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
@@ -44,7 +68,7 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading? LoadingScreen() : Scaffold(
       body: Form(
         key: _formKey,
         child: Stack(

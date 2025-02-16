@@ -8,29 +8,49 @@ import '../auth_service.dart';
 import '../components/cusom_text_field.dart';
 import '../components/custom_button.dart';
 import '../components/custom_neon_text.dart';
+import '../components/loading_screen.dart';
 import 'background_decoreation.dart';
 
-class LogInPage extends StatelessWidget {
+class LogInPage extends StatefulWidget {
   LogInPage({super.key});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   final AuthService _authService = AuthService();
 
+  bool isLoading = false;
 
   void _signIn(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
       String? errorMessage = await _authService.signIn(
         emailController.text.trim(),
         passwordController.text.trim(),
       );
 
       if (errorMessage == null) {
+        setState(() {
+          isLoading = false;
+        });
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => ChatScreen()),(route) => false,
         );
       } else {
+        setState(() {
+          isLoading = false;
+        });
         _showErrorMessage(errorMessage,context);
       }
     }
@@ -44,7 +64,7 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading? LoadingScreen() :  Scaffold(
       body: Form(
         key: _formKey,
         child: Stack(
