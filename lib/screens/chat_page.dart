@@ -39,9 +39,9 @@ class ChatScreen extends StatelessWidget {
                     thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
                           (Set<WidgetState> states) {
                         if (isSwitched) {
-                          return Icon(Icons.nightlight_round, color: Colors.orange.shade700); // أيقونة عند التشغيل
+                          return Icon(Icons.nightlight_round, color: Colors.orange.shade700);
                         } else {
-                          return Icon(Icons.sunny, color: Colors.orange.shade700); // أيقونة عند الإيقاف
+                          return Icon(Icons.sunny, color: Colors.orange.shade700);
                         }
                       },
                     ),
@@ -70,7 +70,7 @@ class ChatScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: LoadingScreen()); // أثناء التحميل
+            return Center(child: LoadingScreen());
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
