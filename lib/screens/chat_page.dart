@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nhzchat/components/loading_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../auth_service.dart';
+import '../theme_provider.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
 
-  @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
   TextEditingController messageController = TextEditingController();
+
   final AuthService _authService = AuthService();
+
   bool isSwitched = true;
 
   @override
@@ -32,22 +32,24 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             ListTile(
               leading: Icon(Icons.sunny),
-              trailing: Switch(
-                activeColor: Colors.blue.shade900,
-                thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
-                      (Set<WidgetState> states) {
-                    if (isSwitched) {
-                      return Icon(Icons.nightlight_round, color: Colors.orange.shade700); // أيقونة عند التشغيل
-                    } else {
-                      return Icon(Icons.sunny, color: Colors.orange.shade700); // أيقونة عند الإيقاف
-                    }
-                  },
-                ),
-                value: isSwitched,
-                onChanged: (val) {
-                  setState(() {
-                    isSwitched = val; // تحديث قيمة السويتش
-                  });
+              trailing: Consumer<ThemeProvider>(
+                builder: (context, themeProvider, child) {
+                 return Switch(
+                    activeColor: Colors.blue.shade900,
+                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
+                          (Set<WidgetState> states) {
+                        if (isSwitched) {
+                          return Icon(Icons.nightlight_round, color: Colors.orange.shade700); // أيقونة عند التشغيل
+                        } else {
+                          return Icon(Icons.sunny, color: Colors.orange.shade700); // أيقونة عند الإيقاف
+                        }
+                      },
+                    ),
+                    value: themeProvider.isDarkMode,
+                    onChanged: (val) {
+                      themeProvider.toggleTheme();
+                    },
+                  );
                 },
               ),
               title: Text("Dark Theme"),),
@@ -68,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator()); // أثناء التحميل
+            return Center(child: LoadingScreen()); // أثناء التحميل
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
